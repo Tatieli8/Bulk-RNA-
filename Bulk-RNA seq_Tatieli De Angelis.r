@@ -331,7 +331,7 @@ ggplot(gene_data, aes(x = Time_Condition, y = Expression, fill = Condition)) +
 
 ############################################################
 # Generate individual boxplots for each gene
-# Definisci le comparazioni per "untreated" vs "treated" a ciascun punto temporale
+# "untreated" vs "treated" for 24, 48 and 72 hour
 comparisons <- list(c("24h.untreated", "24h.treated"),
                     c("48h.untreated", "48h.treated"),
                     c("72h.untreated", "72h.treated"))
@@ -354,19 +354,19 @@ boxplot_list <- lapply(selected_genes, function(gene) {
     theme_minimal() +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
     
-    # Aggiungi i segni di significatività con parentesi quadre e asterisco
+     # Add signs of significance with square brackets and asterisks
     stat_compare_means(comparisons = comparisons, label = "p.signif", method = "t.test", 
-                       aes(group = Condition))  # Assicurati di confrontare le condizioni
+                       aes(group = Condition))  
   
   return(p)
 })
 
 # Arrange all boxplots in a grid
 combined_plot <- gridExtra::grid.arrange(
-  grobs = boxplot_list,   # boxplot_list è la lista dei grafici
-  ncol = 2,               # 2 colonne
-  nrow = 4,               # 4 righe
-  top = "Boxplot dei 8 geni"  # Titolo sopra il grafico
+  grobs = boxplot_list,   
+  ncol = 2,              
+  nrow = 4,              
+  top = "Boxplot of genes of main interest"  
 )
 
 # Save image 
