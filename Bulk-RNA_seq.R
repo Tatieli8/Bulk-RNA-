@@ -680,3 +680,119 @@ combined_annotations_72h <- bind_rows(
 write.xlsx(combined_annotations_72h, "combined_annotations_72h.xlsx", rowNames = FALSE)
 
 
+##############################################################################
+####### top 10 upregulated/downregulated genes at each time point
+##############################################################################
+library(ggpubr)
+####################### 24h ##################################################
+# ---- Top 10 UP ----
+top_up_24 <- res_24_df %>%
+  filter(padj < 0.05, log2FoldChange > 1) %>%
+  arrange(desc(log2FoldChange)) %>%
+  head(10) %>%
+  select(Gene = gene, `Log2FC` = log2FoldChange, `Adj.Pval` = padj)
+
+tab_up_24 <- ggtexttable(top_up_24,
+                         theme = ttheme("light"),
+                         rows = NULL) %>%
+  tab_add_title(text = "Top 10 Upregulated Genes (24h)", face = "bold")
+
+# ---- Top 10 DOWN ----
+top_down_24 <- res_24_df %>%
+  filter(padj < 0.05, log2FoldChange < -1) %>%
+  arrange(log2FoldChange) %>%
+  head(10) %>%
+  select(Gene = gene, `Log2FC` = log2FoldChange, `Adj.Pval` = padj)
+
+if (nrow(top_down_24) > 0) {
+  tab_down_24 <- ggtexttable(top_down_24,
+                             theme = ttheme("light"),
+                             rows = NULL) %>%
+    tab_add_title(text = "Top 10 Downregulated Genes (24h)", face = "bold")
+} else {
+  tab_down_24 <- ggtexttable(data.frame(Note = "No significant downregulated genes"),
+                             theme = ttheme("light")) %>%
+    tab_add_title(text = "Top 10 Downregulated Genes (24h)", face = "bold")
+}
+
+# ---- Combine and Save ----
+library(grid)
+png("Top_24h_DEGs_Tables.png", width = 1200, height = 600, res = 150)
+grid.draw(plot_24_tables)
+dev.off()
+
+####################### 48h ##################################################
+# ---- Top 10 UP ----
+top_up_48 <- res_48_df %>%
+  filter(padj < 0.05, log2FoldChange > 1) %>%
+  arrange(desc(log2FoldChange)) %>%
+  head(10) %>%
+  select(Gene = gene, `Log2FC` = log2FoldChange, `Adj.Pval` = padj)
+
+tab_up_48 <- ggtexttable(top_up_48,
+                         theme = ttheme("light"),
+                         rows = NULL) %>%
+  tab_add_title(text = "Top 10 Upregulated Genes (48h)", face = "bold")
+
+# ---- Top 10 DOWN ----
+top_down_48 <- res_48_df %>%
+  filter(padj < 0.05, log2FoldChange < -1) %>%
+  arrange(log2FoldChange) %>%
+  head(10) %>%
+  select(Gene = gene, `Log2FC` = log2FoldChange, `Adj.Pval` = padj)
+
+if (nrow(top_down_48) > 0) {
+  tab_down_48 <- ggtexttable(top_down_48,
+                             theme = ttheme("light"),
+                             rows = NULL) %>%
+    tab_add_title(text = "Top 10 Downregulated Genes (48h)", face = "bold")
+} else {
+  tab_down_48 <- ggtexttable(data.frame(Note = "No significant downregulated genes"),
+                             theme = ttheme("light")) %>%
+    tab_add_title(text = "Top 10 Downregulated Genes (48h)", face = "bold")
+}
+
+# ---- Combine and Save ----
+png("Top_48h_DEGs_Tables.png", width = 1200, height = 600, res = 150)
+grid.draw(plot_48_tables)
+dev.off()
+
+####################### 72h ##################################################
+# ---- Top 10 UP ----
+top_up_72 <- res_72_df %>%
+  filter(padj < 0.05, log2FoldChange > 1) %>%
+  arrange(desc(log2FoldChange)) %>%
+  head(10) %>%
+  select(Gene = gene, `Log2FC` = log2FoldChange, `Adj.Pval` = padj)
+
+tab_up_72 <- ggtexttable(top_up_72,
+                         theme = ttheme("light"),
+                         rows = NULL) %>%
+  tab_add_title(text = "Top 10 Upregulated Genes (72h)", face = "bold")
+
+# ---- Top 10 DOWN ----
+top_down_72 <- res_72_df %>%
+  filter(padj < 0.05, log2FoldChange < -1) %>%
+  arrange(log2FoldChange) %>%
+  head(10) %>%
+  select(Gene = gene, `Log2FC` = log2FoldChange, `Adj.Pval` = padj)
+
+if (nrow(top_down_72) > 0) {
+  tab_down_72 <- ggtexttable(top_down_72,
+                             theme = ttheme("light"),
+                             rows = NULL) %>%
+    tab_add_title(text = "Top 10 Downregulated Genes (72h)", face = "bold")
+} else {
+  tab_down_72 <- ggtexttable(data.frame(Note = "No significant downregulated genes"),
+                             theme = ttheme("light")) %>%
+    tab_add_title(text = "Top 10 Downregulated Genes (72h)", face = "bold")
+}
+
+# ---- Combine and Save ----
+png("Top_72h_DEGs_Tables.png", width = 1200, height = 600, res = 150)
+grid.draw(plot_72_tables)
+dev.off()
+
+
+
+
